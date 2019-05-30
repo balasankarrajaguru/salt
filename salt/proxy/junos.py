@@ -92,6 +92,8 @@ def init(opts):
     log.debug('Opening connection to junos')
 
     args = {"host": opts['proxy']['host']}
+    # by default sax parser to be enabled in iAgent
+    args['use_filter'] = True
     optional_args = ['user',
                      'username',
                      'password',
@@ -105,6 +107,7 @@ def init(opts):
                      'ssh_private_key_file',
                      'ssh_config',
                      'normalize',
+                     'use_filter'
                      ]
 
     if 'username' in opts['proxy'].keys():
