@@ -252,6 +252,8 @@ def init(opts):
         netmiko_device["initialized"] = True
         netmiko_device["args"] = netmiko_connection_args
         netmiko_device["up"] = True
+        __salt__["event.fire_master"]({}, "netmiko/proxy/{}/start".format(
+            proxy_dict["host"] or proxy_dict["ip"]))
         if not netmiko_device["always_alive"]:
             netmiko_device["connection"].disconnect()
     except NetMikoTimeoutException as t_err:
@@ -269,7 +271,12 @@ def alive(opts):
     if not netmiko_device["always_alive"]:
         return True
     if ping() and initialized():
-        return netmiko_device["connection"].remote_conn.transport.is_alive()
+        netmiko_device["up"] = netmiko_device["connection"].remote_conn.transport.is_alive()
+        if netmiko_device["up"] is True:
+            return True
+    __salt__["event.fire_master"](
+        {}, "netmiko/proxy/{}/stop".format(opts["proxy"]["host"] or opts["proxy"]["ip"])
+    )
     return False
 
 
