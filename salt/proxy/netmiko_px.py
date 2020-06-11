@@ -253,7 +253,7 @@ def init(opts):
         netmiko_device["args"] = netmiko_connection_args
         netmiko_device["up"] = True
         __salt__["event.fire_master"]({}, "netmiko/proxy/{}/start".format(
-            proxy_dict["host"] or proxy_dict["ip"]))
+            proxy_dict.get("host") or proxy_dict.get("ip")))
         if not netmiko_device["always_alive"]:
             netmiko_device["connection"].disconnect()
     except NetMikoTimeoutException as t_err:
@@ -275,7 +275,8 @@ def alive(opts):
         if netmiko_device["up"] is True:
             return True
     __salt__["event.fire_master"](
-        {}, "netmiko/proxy/{}/stop".format(opts["proxy"]["host"] or opts["proxy"]["ip"])
+        {}, "netmiko/proxy/{}/stop".format(opts["proxy"].get("host") or
+                                           opts["proxy"].get("ip"))
     )
     return False
 
