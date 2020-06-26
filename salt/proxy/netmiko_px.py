@@ -196,6 +196,12 @@ try:
 except ImportError:
     HAS_NETMIKO = False
 
+try:
+    HAS_JUNOSSECURE = True
+    from junossecure.junos_secure import junos_decode
+    from junossecure.junos_secure_exception import EncodeDecodeError
+except ImportError:
+    HAS_JUNOSSECURE = False
 
 # -----------------------------------------------------------------------------
 # proxy properties
@@ -246,6 +252,22 @@ def init(opts):
     netmiko_device["always_alive"] = netmiko_connection_args.pop(
         "always_alive", opts.get("proxy_always_alive", True)
     )
+
+    # junos specific code
+    # If encoded_passwd is found, prefer it over passwd or password
+    if "encoded_password" in opts["proxy"].keys():
+        if HAS_JUNOSSECURE:
+            try:
+                decoded_password = junos_decode(opts['proxy'].pop('encoded_password'))
+                netmiko_connection_args['password'] = decoded_password
+            except EncodeDecodeError:
+                log.error('Unable to decode encoded_password, proceeding with passwd or password')
+    # Proceeding with plain text password options as junossecure package not found
+        else:
+            opts['proxy'].pop('encoded_password')
+            log.error('encoded_password option provided, but could not find junossecure option to'
+                      ' decode. Proceeding with passwd or password options if provided.')
+
     try:
         connection = ConnectHandler(**netmiko_connection_args)
         netmiko_device["connection"] = connection
