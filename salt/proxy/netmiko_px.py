@@ -255,16 +255,16 @@ def init(opts):
 
     # junos specific code
     # If encoded_passwd is found, prefer it over passwd or password
-    if "encoded_password" in opts["proxy"].keys():
+    if "encoded_password" in netmiko_connection_args:
         if HAS_JUNOSSECURE:
             try:
-                decoded_password = junos_decode(opts['proxy'].pop('encoded_password'))
+                decoded_password = junos_decode(netmiko_connection_args.pop('encoded_password'))
                 netmiko_connection_args['password'] = decoded_password
             except EncodeDecodeError:
                 log.error('Unable to decode encoded_password, proceeding with passwd or password')
     # Proceeding with plain text password options as junossecure package not found
         else:
-            opts['proxy'].pop('encoded_password')
+            netmiko_connection_args.pop('encoded_password')
             log.error('encoded_password option provided, but could not find junossecure option to'
                       ' decode. Proceeding with passwd or password options if provided.')
 
