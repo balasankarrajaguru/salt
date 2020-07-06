@@ -324,6 +324,9 @@ def shutdown(opts):
     """
     Closes connection with the device.
     """
+    if "connection" not in netmiko_device:
+        log.error("Skip disconnect call as connection handle not found")
+        return False
     return call("disconnect")
 
 
