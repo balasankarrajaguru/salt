@@ -204,6 +204,12 @@ try:
 except ImportError:
     HAS_JSONSCHEMA = False
 
+try:
+    HAS_JUNOSSECURE = True
+    from junossecure.junos_secure import junos_decode
+    from junossecure.junos_secure_exception import EncodeDecodeError
+except ImportError:
+    HAS_JUNOSSECURE = False
 
 # Variables are scoped to this module so we can have persistent data
 # across calls to fns in here.
@@ -254,10 +260,19 @@ def init(opts):
                 "'username' key found in proxy config"
             )
         if "passwords" not in proxy_conf:
-            raise salt.exceptions.InvalidConfigError(
-                "Mechanism is set to 'userpass' , but no "
-                "'passwords' key found in proxy config"
-            )
+            if "encoded_password" in proxy_conf:
+                if HAS_JUNOSSECURE:
+                    try:
+                        decoded_password = junos_decode(proxy_conf.pop("encoded_password"))
+                        proxy_conf["passwords"] = [decoded_password]
+                    except EncodeDecodeError:
+                        log.error("Unable to decode encoded_password, proceeding with passwd or password")
+                        raise
+            else:
+                raise salt.exceptions.InvalidConfigError(
+                    "Mechanism is set to 'userpass' , but no "
+                    "'passwords' key found in proxy config"
+                )
         for key in ("username", "passwords"):
             DETAILS[key] = proxy_conf[key]
     else:

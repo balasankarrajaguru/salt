@@ -478,7 +478,7 @@ def gets_service_instance_via_proxy(fn):
 
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxi", "esxcluster", "esxdatacenter", "vcenter", "esxvm")
-def get_service_instance_via_proxy(service_instance=None):
+def get_service_instance_via_proxy(service_instance=None, **kwargs):
     """
     Returns a service instance to the proxied endpoint (vCenter/ESXi host).
 
@@ -1670,8 +1670,8 @@ def upload_ssh_key(
 
 @ignores_kwargs("credstore")
 def get_ssh_key(
-    host, username, password, protocol=None, port=None, certificate_verify=False
-):
+    host, username, password, protocol=None, port=None, certificate_verify=False,
+    **kwargs):
     """
     Retrieve the authorized_keys entry for root.
     This function only works for ESXi, not vCenter.
@@ -1725,7 +1725,7 @@ def get_ssh_key(
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
 def get_host_datetime(
-    host, username, password, protocol=None, port=None, host_names=None
+    host, username, password, protocol=None, port=None, host_names=None, **kwargs
 ):
     """
     Get the date/time information for a given host or list of host_names.
@@ -1783,7 +1783,8 @@ def get_host_datetime(
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def get_ntp_config(host, username, password, protocol=None, port=None, host_names=None):
+def get_ntp_config(host, username, password, protocol=None, port=None, host_names=None,
+                   **kwargs):
     """
     Get the NTP configuration information for a given host or list of host_names.
 
@@ -1840,8 +1841,8 @@ def get_ntp_config(host, username, password, protocol=None, port=None, host_name
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
 def get_service_policy(
-    host, username, password, service_name, protocol=None, port=None, host_names=None
-):
+    host, username, password, service_name, protocol=None, port=None, host_names=None,
+    **kwargs):
     """
     Get the service name's policy for a given host or list of hosts.
 
@@ -1967,8 +1968,8 @@ def get_service_policy(
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
 def get_service_running(
-    host, username, password, service_name, protocol=None, port=None, host_names=None
-):
+    host, username, password, service_name, protocol=None, port=None, host_names=None,
+    **kwargs):
     """
     Get the service name's running state for a given host or list of hosts.
 
@@ -2094,7 +2095,7 @@ def get_service_running(
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
 def get_vmotion_enabled(
-    host, username, password, protocol=None, port=None, host_names=None
+    host, username, password, protocol=None, port=None, host_names=None, **kwargs
 ):
     """
     Get the VMotion enabled status for a given host or a list of host_names. Returns ``True``
@@ -2156,7 +2157,7 @@ def get_vmotion_enabled(
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
 def get_vsan_enabled(
-    host, username, password, protocol=None, port=None, host_names=None
+    host, username, password, protocol=None, port=None, host_names=None, **kwargs
 ):
     """
     Get the VSAN enabled status for a given host or a list of host_names. Returns ``True``
@@ -2225,7 +2226,7 @@ def get_vsan_enabled(
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
 def get_vsan_eligible_disks(
-    host, username, password, protocol=None, port=None, host_names=None
+    host, username, password, protocol=None, port=None, host_names=None, **kwargs
 ):
     """
     Returns a list of VSAN-eligible disks for a given host or list of host_names.
@@ -2300,7 +2301,7 @@ def get_vsan_eligible_disks(
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxi", "esxcluster", "esxdatacenter", "vcenter", "esxvm")
 @gets_service_instance_via_proxy
-def test_vcenter_connection(service_instance=None):
+def test_vcenter_connection(service_instance=None, **kwargs):
     """
     Checks if a connection is to a vCenter
 
@@ -2320,7 +2321,7 @@ def test_vcenter_connection(service_instance=None):
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def system_info(host, username, password, protocol=None, port=None):
+def system_info(host, username, password, protocol=None, port=None, **kwargs):
     """
     Return system information about a VMware environment.
 
@@ -2361,7 +2362,7 @@ def system_info(host, username, password, protocol=None, port=None):
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def list_datacenters(host, username, password, protocol=None, port=None):
+def list_datacenters(host, username, password, protocol=None, port=None, **kwargs):
     """
     Returns a list of datacenters for the specified host.
 
@@ -2397,7 +2398,7 @@ def list_datacenters(host, username, password, protocol=None, port=None):
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def list_clusters(host, username, password, protocol=None, port=None):
+def list_clusters(host, username, password, protocol=None, port=None, **kwargs):
     """
     Returns a list of clusters for the specified host.
 
@@ -2433,7 +2434,7 @@ def list_clusters(host, username, password, protocol=None, port=None):
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def list_datastore_clusters(host, username, password, protocol=None, port=None):
+def list_datastore_clusters(host, username, password, protocol=None, port=None, **kwargs):
     """
     Returns a list of datastore clusters for the specified host.
 
@@ -2468,7 +2469,7 @@ def list_datastore_clusters(host, username, password, protocol=None, port=None):
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def list_datastores(host, username, password, protocol=None, port=None):
+def list_datastores(host, username, password, protocol=None, port=None, **kwargs):
     """
     Returns a list of datastores for the specified host.
 
@@ -2503,7 +2504,7 @@ def list_datastores(host, username, password, protocol=None, port=None):
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def list_hosts(host, username, password, protocol=None, port=None):
+def list_hosts(host, username, password, protocol=None, port=None, **kwargs):
     """
     Returns a list of hosts for the specified VMware environment.
 
@@ -2538,7 +2539,7 @@ def list_hosts(host, username, password, protocol=None, port=None):
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def list_resourcepools(host, username, password, protocol=None, port=None):
+def list_resourcepools(host, username, password, protocol=None, port=None, **kwargs):
     """
     Returns a list of resource pools for the specified host.
 
@@ -2573,7 +2574,7 @@ def list_resourcepools(host, username, password, protocol=None, port=None):
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def list_networks(host, username, password, protocol=None, port=None):
+def list_networks(host, username, password, protocol=None, port=None, **kwargs):
     """
     Returns a list of networks for the specified host.
 
@@ -2608,7 +2609,7 @@ def list_networks(host, username, password, protocol=None, port=None):
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def list_vms(host, username, password, protocol=None, port=None):
+def list_vms(host, username, password, protocol=None, port=None, **kwargs):
     """
     Returns a list of VMs for the specified host.
 
@@ -2643,7 +2644,7 @@ def list_vms(host, username, password, protocol=None, port=None):
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def list_folders(host, username, password, protocol=None, port=None):
+def list_folders(host, username, password, protocol=None, port=None, **kwargs):
     """
     Returns a list of folders for the specified host.
 
@@ -2678,7 +2679,7 @@ def list_folders(host, username, password, protocol=None, port=None):
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def list_dvs(host, username, password, protocol=None, port=None):
+def list_dvs(host, username, password, protocol=None, port=None, **kwargs):
     """
     Returns a list of distributed virtual switches for the specified host.
 
@@ -2713,7 +2714,7 @@ def list_dvs(host, username, password, protocol=None, port=None):
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def list_vapps(host, username, password, protocol=None, port=None):
+def list_vapps(host, username, password, protocol=None, port=None, **kwargs):
     """
     Returns a list of vApps for the specified host.
 
@@ -2749,7 +2750,7 @@ def list_vapps(host, username, password, protocol=None, port=None):
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def list_ssds(host, username, password, protocol=None, port=None, host_names=None):
+def list_ssds(host, username, password, protocol=None, port=None, host_names=None, **kwargs):
     """
     Returns a list of SSDs for the given host or list of host_names.
 
@@ -2808,7 +2809,8 @@ def list_ssds(host, username, password, protocol=None, port=None, host_names=Non
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def list_non_ssds(host, username, password, protocol=None, port=None, host_names=None):
+def list_non_ssds(host, username, password, protocol=None, port=None, host_names=None,
+                  **kwargs):
     """
     Returns a list of Non-SSD disks for the given host or list of host_names.
 
@@ -2875,8 +2877,8 @@ def list_non_ssds(host, username, password, protocol=None, port=None, host_names
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
 def set_ntp_config(
-    host, username, password, ntp_servers, protocol=None, port=None, host_names=None
-):
+    host, username, password, ntp_servers, protocol=None, port=None, host_names=None,
+    **kwargs):
     """
     Set NTP configuration for a given host of list of host_names.
 
@@ -2959,8 +2961,8 @@ def set_ntp_config(
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
 def service_start(
-    host, username, password, service_name, protocol=None, port=None, host_names=None
-):
+    host, username, password, service_name, protocol=None, port=None, host_names=None,
+**kwargs):
     """
     Start the named service for the given host or list of hosts.
 
@@ -3086,8 +3088,8 @@ def service_start(
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
 def service_stop(
-    host, username, password, service_name, protocol=None, port=None, host_names=None
-):
+    host, username, password, service_name, protocol=None, port=None, host_names=None,
+**kwargs):
     """
     Stop the named service for the given host or list of hosts.
 
@@ -3213,8 +3215,8 @@ def service_stop(
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
 def service_restart(
-    host, username, password, service_name, protocol=None, port=None, host_names=None
-):
+    host, username, password, service_name, protocol=None, port=None, host_names=None,
+**kwargs):
     """
     Restart the named service for the given host or list of hosts.
 
@@ -3350,7 +3352,7 @@ def set_service_policy(
     protocol=None,
     port=None,
     host_names=None,
-):
+    **kwargs):
     """
     Set the service name's policy for a given host or list of hosts.
 
@@ -3497,7 +3499,7 @@ def set_service_policy(
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
 def update_host_datetime(
-    host, username, password, protocol=None, port=None, host_names=None
+    host, username, password, protocol=None, port=None, host_names=None, **kwargs
 ):
     """
     Update the date/time on the given host or list of host_names. This function should be
@@ -3631,7 +3633,7 @@ def update_host_password(
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
 def vmotion_disable(
-    host, username, password, protocol=None, port=None, host_names=None
+    host, username, password, protocol=None, port=None, host_names=None, **kwargs
 ):
     """
     Disable vMotion for a given host or list of host_names.
@@ -3699,8 +3701,8 @@ def vmotion_disable(
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
 def vmotion_enable(
-    host, username, password, protocol=None, port=None, host_names=None, device="vmk0"
-):
+    host, username, password, protocol=None, port=None, host_names=None, device="vmk0",
+    **kwargs):
     """
     Enable vMotion for a given host or list of host_names.
 
@@ -3770,7 +3772,8 @@ def vmotion_enable(
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def vsan_add_disks(host, username, password, protocol=None, port=None, host_names=None):
+def vsan_add_disks(host, username, password, protocol=None, port=None, host_names=None,
+                   **kwargs):
     """
     Add any VSAN-eligible disks to the VSAN System for the given host or list of host_names.
 
@@ -3888,7 +3891,8 @@ def vsan_add_disks(host, username, password, protocol=None, port=None, host_name
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def vsan_disable(host, username, password, protocol=None, port=None, host_names=None):
+def vsan_disable(host, username, password, protocol=None, port=None, host_names=None,
+                 **kwargs):
     """
     Disable VSAN for a given host or list of host_names.
 
@@ -3977,7 +3981,8 @@ def vsan_disable(host, username, password, protocol=None, port=None, host_names=
 
 @depends(HAS_PYVMOMI)
 @ignores_kwargs("credstore")
-def vsan_enable(host, username, password, protocol=None, port=None, host_names=None):
+def vsan_enable(host, username, password, protocol=None, port=None, host_names=None,
+                **kwargs):
     """
     Enable VSAN for a given host or list of host_names.
 
@@ -4181,7 +4186,7 @@ def _get_dvs_infrastructure_traffic_resources(dvs_name, dvs_infra_traffic_ress):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "esxcluster")
 @gets_service_instance_via_proxy
-def list_dvss(datacenter=None, dvs_names=None, service_instance=None):
+def list_dvss(datacenter=None, dvs_names=None, service_instance=None, **kwargs):
     """
     Returns a list of distributed virtual switches (DVSs).
     The list can be filtered by the datacenter or DVS names.
@@ -4388,7 +4393,7 @@ def _apply_dvs_network_resource_pools(network_resource_pools, resource_dicts):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "esxcluster")
 @gets_service_instance_via_proxy
-def create_dvs(dvs_dict, dvs_name, service_instance=None):
+def create_dvs(dvs_dict, dvs_name, service_instance=None, **kwargs):
     """
     Creates a distributed virtual switch (DVS).
 
@@ -4461,7 +4466,7 @@ def create_dvs(dvs_dict, dvs_name, service_instance=None):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "esxcluster")
 @gets_service_instance_via_proxy
-def update_dvs(dvs_dict, dvs, service_instance=None):
+def update_dvs(dvs_dict, dvs, service_instance=None, **kwargs):
     """
     Updates a distributed virtual switch (DVS).
 
@@ -4687,7 +4692,7 @@ def _get_dvportgroup_dict(pg_ref):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "esxcluster")
 @gets_service_instance_via_proxy
-def list_dvportgroups(dvs=None, portgroup_names=None, service_instance=None):
+def list_dvportgroups(dvs=None, portgroup_names=None, service_instance=None, **kwargs):
     """
     Returns a list of distributed virtual switch portgroups.
     The list can be filtered by the portgroup names or by the DVS.
@@ -4744,7 +4749,7 @@ def list_dvportgroups(dvs=None, portgroup_names=None, service_instance=None):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "esxcluster")
 @gets_service_instance_via_proxy
-def list_uplink_dvportgroup(dvs, service_instance=None):
+def list_uplink_dvportgroup(dvs, service_instance=None, **kwargs):
     """
     Returns the uplink portgroup of a distributed virtual switch.
 
@@ -4959,7 +4964,8 @@ def _apply_dvportgroup_config(pg_name, pg_spec, pg_conf):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "esxcluster")
 @gets_service_instance_via_proxy
-def create_dvportgroup(portgroup_dict, portgroup_name, dvs, service_instance=None):
+def create_dvportgroup(portgroup_dict, portgroup_name, dvs, service_instance=None,
+                       **kwargs):
     """
     Creates a distributed virtual portgroup.
 
@@ -5010,7 +5016,7 @@ def create_dvportgroup(portgroup_dict, portgroup_name, dvs, service_instance=Non
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "esxcluster")
 @gets_service_instance_via_proxy
-def update_dvportgroup(portgroup_dict, portgroup, dvs, service_instance=True):
+def update_dvportgroup(portgroup_dict, portgroup, dvs, service_instance=True, **kwargs):
     """
     Updates a distributed virtual portgroup.
 
@@ -5084,7 +5090,7 @@ def update_dvportgroup(portgroup_dict, portgroup, dvs, service_instance=True):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "esxcluster")
 @gets_service_instance_via_proxy
-def remove_dvportgroup(portgroup, dvs, service_instance=None):
+def remove_dvportgroup(portgroup, dvs, service_instance=None, **kwargs):
     """
     Removes a distributed virtual portgroup.
 
@@ -5163,7 +5169,7 @@ def _get_policy_dict(policy):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "vcenter")
 @gets_service_instance_via_proxy
-def list_storage_policies(policy_names=None, service_instance=None):
+def list_storage_policies(policy_names=None, service_instance=None, **kwargs):
     """
     Returns a list of storage policies.
 
@@ -5194,7 +5200,7 @@ def list_storage_policies(policy_names=None, service_instance=None):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "vcenter")
 @gets_service_instance_via_proxy
-def list_default_vsan_policy(service_instance=None):
+def list_default_vsan_policy(service_instance=None, **kwargs):
     """
     Returns the default vsan storage policy.
 
@@ -5236,7 +5242,7 @@ def _get_capability_definition_dict(cap_metadata):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "vcenter")
 @gets_service_instance_via_proxy
-def list_capability_definitions(service_instance=None):
+def list_capability_definitions(service_instance=None, **kwargs):
     """
     Returns a list of the metadata of all capabilities in the vCenter.
 
@@ -5309,7 +5315,8 @@ def _apply_policy_config(policy_spec, policy_dict):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "vcenter")
 @gets_service_instance_via_proxy
-def create_storage_policy(policy_name, policy_dict, service_instance=None):
+def create_storage_policy(policy_name, policy_dict, service_instance=None,
+                          **kwargs):
     """
     Creates a storage policy.
 
@@ -5353,7 +5360,7 @@ def create_storage_policy(policy_name, policy_dict, service_instance=None):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "vcenter")
 @gets_service_instance_via_proxy
-def update_storage_policy(policy, policy_dict, service_instance=None):
+def update_storage_policy(policy, policy_dict, service_instance=None, **kwargs):
     """
     Updates a storage policy.
 
@@ -5395,7 +5402,8 @@ def update_storage_policy(policy, policy_dict, service_instance=None):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxcluster", "esxdatacenter", "vcenter")
 @gets_service_instance_via_proxy
-def list_default_storage_policy_of_datastore(datastore, service_instance=None):
+def list_default_storage_policy_of_datastore(datastore, service_instance=None,
+                                             **kwargs):
     """
     Returns a list of datastores assign the storage policies.
 
@@ -5435,7 +5443,7 @@ def list_default_storage_policy_of_datastore(datastore, service_instance=None):
 @supports_proxies("esxcluster", "esxdatacenter", "vcenter")
 @gets_service_instance_via_proxy
 def assign_default_storage_policy_to_datastore(
-    policy, datastore, service_instance=None
+    policy, datastore, service_instance=None, **kwargs
 ):
     """
     Assigns a storage policy as the default policy to a datastore.
@@ -5483,7 +5491,8 @@ def assign_default_storage_policy_to_datastore(
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "esxcluster", "vcenter", "esxvm")
 @gets_service_instance_via_proxy
-def list_datacenters_via_proxy(datacenter_names=None, service_instance=None):
+def list_datacenters_via_proxy(datacenter_names=None, service_instance=None,
+                               **kwargs):
     """
     Returns a list of dict representations of VMware datacenters.
     Connection is done via the proxy details.
@@ -5524,7 +5533,7 @@ def list_datacenters_via_proxy(datacenter_names=None, service_instance=None):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxdatacenter", "vcenter")
 @gets_service_instance_via_proxy
-def create_datacenter(datacenter_name, service_instance=None):
+def create_datacenter(datacenter_name, service_instance=None, **kwargs):
     """
     Creates a datacenter.
 
@@ -5638,7 +5647,7 @@ def _get_cluster_dict(cluster_name, cluster_ref):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
-def list_cluster(datacenter=None, cluster=None, service_instance=None):
+def list_cluster(datacenter=None, cluster=None, service_instance=None, **kwargs):
     """
     Returns a dict representation of an ESX cluster.
 
@@ -5812,7 +5821,8 @@ def _apply_cluster_dict(cluster_spec, cluster_dict, vsan_spec=None, vsan_61=True
 @depends(HAS_JSONSCHEMA)
 @supports_proxies("esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
-def create_cluster(cluster_dict, datacenter=None, cluster=None, service_instance=None):
+def create_cluster(cluster_dict, datacenter=None, cluster=None, service_instance=None,
+                   **kwargs):
     """
     Creates a cluster.
 
@@ -5909,7 +5919,8 @@ def create_cluster(cluster_dict, datacenter=None, cluster=None, service_instance
 @depends(HAS_JSONSCHEMA)
 @supports_proxies("esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
-def update_cluster(cluster_dict, datacenter=None, cluster=None, service_instance=None):
+def update_cluster(cluster_dict, datacenter=None, cluster=None, service_instance=None,
+                   **kwargs):
     """
     Updates a cluster.
 
@@ -6028,7 +6039,7 @@ def list_datastores_via_proxy(
     backing_disk_ids=None,
     backing_disk_scsi_addresses=None,
     service_instance=None,
-):
+    **kwargs):
     """
     Returns a list of dict representations of the datastores visible to the
     proxy object. The list of datastores can be filtered by datastore names,
@@ -6130,7 +6141,7 @@ def create_vmfs_datastore(
     vmfs_major_version,
     safety_checks=True,
     service_instance=None,
-):
+    **kwargs):
     """
     Creates a ESXi host disk group with the specified cache and capacity disks.
 
@@ -6188,7 +6199,8 @@ def create_vmfs_datastore(
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxi", "esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
-def rename_datastore(datastore_name, new_datastore_name, service_instance=None):
+def rename_datastore(datastore_name, new_datastore_name, service_instance=None,
+                     **kwargs):
     """
     Renames a datastore. The datastore needs to be visible to the proxy.
 
@@ -6226,7 +6238,7 @@ def rename_datastore(datastore_name, new_datastore_name, service_instance=None):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxi", "esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
-def remove_datastore(datastore, service_instance=None):
+def remove_datastore(datastore, service_instance=None, **kwargs):
     """
     Removes a datastore. If multiple datastores an error is raised.
 
@@ -6261,7 +6273,7 @@ def remove_datastore(datastore, service_instance=None):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
-def list_licenses(service_instance=None):
+def list_licenses(service_instance=None, **kwargs):
     """
     Lists all licenses on a vCenter.
 
@@ -6292,7 +6304,8 @@ def list_licenses(service_instance=None):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
-def add_license(key, description, safety_checks=True, service_instance=None):
+def add_license(key, description, safety_checks=True, service_instance=None,
+                **kwargs):
     """
     Adds a license to the vCenter or ESXi host
 
@@ -6383,8 +6396,8 @@ def _validate_entity(entity):
 @supports_proxies("esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
 def list_assigned_licenses(
-    entity, entity_display_name, license_keys=None, service_instance=None
-):
+    entity, entity_display_name, license_keys=None, service_instance=None,
+    **kwargs):
     """
     Lists the licenses assigned to an entity
 
@@ -6441,6 +6454,7 @@ def assign_license(
     entity_display_name,
     safety_checks=True,
     service_instance=None,
+    **kwargs
 ):
     """
     Assigns a license to an entity
@@ -6492,8 +6506,8 @@ def assign_license(
 @supports_proxies("esxi", "esxcluster", "esxdatacenter", "vcenter")
 @gets_service_instance_via_proxy
 def list_hosts_via_proxy(
-    hostnames=None, datacenter=None, cluster=None, service_instance=None
-):
+    hostnames=None, datacenter=None, cluster=None, service_instance=None,
+    **kwargs):
     """
     Returns a list of hosts for the specified VMware environment. The list
     of hosts can be filtered by datacenter name and/or cluster name
@@ -6545,7 +6559,8 @@ def list_hosts_via_proxy(
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxi")
 @gets_service_instance_via_proxy
-def list_disks(disk_ids=None, scsi_addresses=None, service_instance=None):
+def list_disks(disk_ids=None, scsi_addresses=None, service_instance=None,
+               **kwargs):
     """
     Returns a list of dict representations of the disks in an ESXi host.
     The list of disks can be filtered by disk canonical names or
@@ -6601,7 +6616,8 @@ def list_disks(disk_ids=None, scsi_addresses=None, service_instance=None):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxi")
 @gets_service_instance_via_proxy
-def erase_disk_partitions(disk_id=None, scsi_address=None, service_instance=None):
+def erase_disk_partitions(disk_id=None, scsi_address=None, service_instance=None,
+                          **kwargs):
     """
     Erases the partitions on a disk.
     The disk can be specified either by the canonical name, or by the
@@ -6662,7 +6678,8 @@ def erase_disk_partitions(disk_id=None, scsi_address=None, service_instance=None
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxi")
 @gets_service_instance_via_proxy
-def list_disk_partitions(disk_id=None, scsi_address=None, service_instance=None):
+def list_disk_partitions(disk_id=None, scsi_address=None, service_instance=None,
+                         **kwargs):
     """
     Lists the partitions on a disk.
     The disk can be specified either by the canonical name, or by the
@@ -6738,7 +6755,7 @@ def list_disk_partitions(disk_id=None, scsi_address=None, service_instance=None)
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxi")
 @gets_service_instance_via_proxy
-def list_diskgroups(cache_disk_ids=None, service_instance=None):
+def list_diskgroups(cache_disk_ids=None, service_instance=None, **kwargs):
     """
     Returns a list of disk group dict representation on an ESXi host.
     The list of disk groups can be filtered by the cache disks
@@ -6784,8 +6801,8 @@ def list_diskgroups(cache_disk_ids=None, service_instance=None):
 @supports_proxies("esxi")
 @gets_service_instance_via_proxy
 def create_diskgroup(
-    cache_disk_id, capacity_disk_ids, safety_checks=True, service_instance=None
-):
+    cache_disk_id, capacity_disk_ids, safety_checks=True, service_instance=None,
+    **kwargs):
     """
     Creates disk group on an ESXi host with the specified cache and
     capacity disks.
@@ -6858,8 +6875,8 @@ def create_diskgroup(
 @supports_proxies("esxi")
 @gets_service_instance_via_proxy
 def add_capacity_to_diskgroup(
-    cache_disk_id, capacity_disk_ids, safety_checks=True, service_instance=None
-):
+    cache_disk_id, capacity_disk_ids, safety_checks=True, service_instance=None,
+    **kwargs):
     """
     Adds capacity disks to the disk group with the specified cache disk.
 
@@ -6933,6 +6950,7 @@ def remove_capacity_from_diskgroup(
     data_evacuation=True,
     safety_checks=True,
     service_instance=None,
+    **kwargs
 ):
     """
     Remove capacity disks from the disk group with the specified cache disk.
@@ -7007,7 +7025,8 @@ def remove_capacity_from_diskgroup(
 @depends(HAS_JSONSCHEMA)
 @supports_proxies("esxi")
 @gets_service_instance_via_proxy
-def remove_diskgroup(cache_disk_id, data_accessibility=True, service_instance=None):
+def remove_diskgroup(cache_disk_id, data_accessibility=True, service_instance=None,
+                     **kwargs):
     """
     Remove the diskgroup with the specified cache disk.
 
@@ -7046,7 +7065,7 @@ def remove_diskgroup(cache_disk_id, data_accessibility=True, service_instance=No
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxi")
 @gets_service_instance_via_proxy
-def get_host_cache(service_instance=None):
+def get_host_cache(service_instance=None, **kwargs):
     """
     Returns the host cache configuration on the proxy host.
 
@@ -7081,8 +7100,8 @@ def get_host_cache(service_instance=None):
 @supports_proxies("esxi")
 @gets_service_instance_via_proxy
 def configure_host_cache(
-    enabled, datastore=None, swap_size_MiB=None, service_instance=None
-):
+    enabled, datastore=None, swap_size_MiB=None, service_instance=None,
+    **kwargs):
     """
     Configures the host cache on the selected host.
 
@@ -7511,6 +7530,7 @@ def add_host_to_dvs(
     protocol=None,
     port=None,
     host_names=None,
+    **kwargs
 ):
     """
     Adds an ESXi host to a vSphere Distributed Virtual Switch and migrates
@@ -7992,6 +8012,7 @@ def get_vm(
     traversal_spec=None,
     parent_ref=None,
     service_instance=None,
+    **kwargs
 ):
     """
     Returns vm object properties.
@@ -8028,7 +8049,8 @@ def get_vm(
 
 @depends(HAS_PYVMOMI)
 @gets_service_instance_via_proxy
-def get_vm_config_file(name, datacenter, placement, datastore, service_instance=None):
+def get_vm_config_file(name, datacenter, placement, datastore, service_instance=None,
+                       **kwargs):
     """
     Queries the virtual machine config file and returns
     vim.host.DatastoreBrowser.SearchResults object on success None on failure
@@ -8168,7 +8190,7 @@ def _apply_memory_config(config_spec, memory):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxvm", "esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
-def get_advanced_configs(vm_name, datacenter, service_instance=None):
+def get_advanced_configs(vm_name, datacenter, service_instance=None, **kwargs):
     """
     Returns extra config parameters from a virtual machine advanced config list
 
@@ -8221,7 +8243,8 @@ def _apply_advanced_config(config_spec, advanced_config, vm_extra_config=None):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxvm", "esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
-def set_advanced_configs(vm_name, datacenter, advanced_configs, service_instance=None):
+def set_advanced_configs(vm_name, datacenter, advanced_configs,
+                         service_instance=None, **kwargs):
     """
     Appends extra config parameters to a virtual machine advanced config list
 
@@ -8296,8 +8319,7 @@ def _delete_advanced_config(config_spec, advanced_config, vm_extra_config):
 @supports_proxies("esxvm", "esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
 def delete_advanced_configs(
-    vm_name, datacenter, advanced_configs, service_instance=None
-):
+    vm_name, datacenter, advanced_configs, service_instance=None, **kwargs):
     """
     Removes extra config parameters from a virtual machine
 
@@ -9450,7 +9472,8 @@ def compare_vm_configs(new_config, current_config):
 
 
 @gets_service_instance_via_proxy
-def get_vm_config(name, datacenter=None, objects=True, service_instance=None):
+def get_vm_config(name, datacenter=None, objects=True, service_instance=None,
+                  **kwargs):
     """
     Queries and converts the virtual machine properties to the available format
     from the schema. If the objects attribute is True the config objects will
@@ -9985,7 +10008,7 @@ def _get_client(server, username, password):
 @supports_proxies("vcenter")
 @gets_service_instance_via_proxy
 def list_tag_categories(
-    server=None, username=None, password=None, service_instance=None
+    server=None, username=None, password=None, service_instance=None, **kwargs
 ):
     """
     List existing categories a user has access to.
@@ -10018,7 +10041,8 @@ def list_tag_categories(
 @depends(HAS_PYVMOMI, HAS_VSPHERE_SDK)
 @supports_proxies("vcenter")
 @gets_service_instance_via_proxy
-def list_tags(server=None, username=None, password=None, service_instance=None):
+def list_tags(server=None, username=None, password=None, service_instance=None,
+              **kwargs):
     """
     List existing tags a user has access to.
 
@@ -10058,6 +10082,7 @@ def attach_tag(
     username=None,
     password=None,
     service_instance=None,
+    **kwargs
 ):
     """
     Attach an existing tag to an input object.
@@ -10134,6 +10159,7 @@ def list_attached_tags(
     username=None,
     password=None,
     service_instance=None,
+    **kwargs
 ):
     """
     List existing tags a user has access to.
@@ -10199,6 +10225,7 @@ def create_tag_category(
     username=None,
     password=None,
     service_instance=None,
+    **kwargs
 ):
     """
     Create a category with given cardinality.
@@ -10265,8 +10292,8 @@ def create_tag_category(
 @supports_proxies("vcenter")
 @gets_service_instance_via_proxy
 def delete_tag_category(
-    category_id, server=None, username=None, password=None, service_instance=None
-):
+    category_id, server=None, username=None, password=None, service_instance=None,
+    **kwargs):
     """
     Delete a category.
 
@@ -10318,6 +10345,7 @@ def create_tag(
     username=None,
     password=None,
     service_instance=None,
+    **kwargs
 ):
     """
     Create a tag under a category with given description.
@@ -10377,7 +10405,8 @@ def create_tag(
 @supports_proxies("vcenter")
 @gets_service_instance_via_proxy
 def delete_tag(
-    tag_id, server=None, username=None, password=None, service_instance=None
+    tag_id, server=None, username=None, password=None, service_instance=None,
+    **kwargs
 ):
     """
     Delete a tag.
@@ -10441,6 +10470,7 @@ def create_vm(
     cd_drives=None,
     advanced_configs=None,
     service_instance=None,
+    **kwargs
 ):
     """
     Creates a virtual machine container.
@@ -10661,6 +10691,7 @@ def update_vm(
     sata_controllers=None,
     advanced_configs=None,
     service_instance=None,
+    **kwargs
 ):
     """
     Updates the configuration of the virtual machine if the config differs
@@ -10857,7 +10888,8 @@ def update_vm(
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxvm", "esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
-def register_vm(name, datacenter, placement, vmx_path, service_instance=None):
+def register_vm(name, datacenter, placement, vmx_path, service_instance=None,
+                **kwargs):
     """
     Registers a virtual machine to the inventory with the given vmx file.
     Returns comments and change list
@@ -10938,7 +10970,7 @@ def register_vm(name, datacenter, placement, vmx_path, service_instance=None):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxvm", "esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
-def power_on_vm(name, datacenter=None, service_instance=None):
+def power_on_vm(name, datacenter=None, service_instance=None, **kwargs):
     """
     Powers on a virtual machine specified by its name.
 
@@ -10979,7 +11011,7 @@ def power_on_vm(name, datacenter=None, service_instance=None):
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxvm", "esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
-def power_off_vm(name, datacenter=None, service_instance=None):
+def power_off_vm(name, datacenter=None, service_instance=None, **kwargs):
     """
     Powers off a virtual machine specified by its name.
 
@@ -11063,7 +11095,8 @@ def _remove_vm(name, datacenter, service_instance, placement=None, power_off=Non
 @depends(HAS_PYVMOMI)
 @supports_proxies("esxvm", "esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
-def delete_vm(name, datacenter, placement=None, power_off=False, service_instance=None):
+def delete_vm(name, datacenter, placement=None, power_off=False, service_instance=None,
+              **kwargs):
     """
     Deletes a virtual machine defined by name and placement
 
@@ -11108,7 +11141,8 @@ def delete_vm(name, datacenter, placement=None, power_off=False, service_instanc
 @supports_proxies("esxvm", "esxcluster", "esxdatacenter")
 @gets_service_instance_via_proxy
 def unregister_vm(
-    name, datacenter, placement=None, power_off=False, service_instance=None
+    name, datacenter, placement=None, power_off=False, service_instance=None,
+    **kwargs
 ):
     """
     Unregisters a virtual machine defined by name and placement
