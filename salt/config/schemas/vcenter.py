@@ -47,6 +47,7 @@ class VCenterProxySchema(Schema):
     vcenter = StringItem(required=True, pattern=r"[^\s]+")
     mechanism = StringItem(required=True, enum=["userpass", "sspi"])
     username = StringItem()
+    encoded_password = StringItem()
     passwords = ArrayItem(min_items=1, items=StringItem(), unique_items=True)
 
     domain = StringItem()

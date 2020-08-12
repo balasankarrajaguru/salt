@@ -265,6 +265,7 @@ def init(opts):
                     try:
                         decoded_password = junos_decode(proxy_conf.pop("encoded_password"))
                         proxy_conf["passwords"] = [decoded_password]
+                        DETAILS["password"] = decoded_password
                     except EncodeDecodeError:
                         log.error("Unable to decode encoded_password, proceeding with passwd or password")
                         raise

@@ -208,6 +208,7 @@ class EsxiProxySchema(Schema):
     vcenter = StringItem(pattern=r"[^\s]+")  # Used when connecting via a vCenter
     esxi_host = StringItem()
     username = StringItem()
+    encoded_password = StringItem()
     passwords = ArrayItem(min_items=1, items=StringItem(), unique_items=True)
     mechanism = StringItem(enum=["userpass", "sspi"])
     # TODO Should be changed when anyOf is supported for schemas

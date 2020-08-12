@@ -351,6 +351,7 @@ def init(opts):
                     try:
                         decoded_password = junos_decode(proxy_conf.pop("encoded_password"))
                         proxy_conf["passwords"] = [decoded_password]
+                        DETAILS["password"] = decoded_password
                     except EncodeDecodeError:
                         log.error("Unable to decode encoded_password, proceeding with passwd or password")
                         return False
@@ -358,6 +359,9 @@ def init(opts):
                 log.critical("No 'passwords' key found in pillar for this proxy.")
                 return False
         host = proxy_conf["host"]
+
+        for key in ("username", "passwords"):
+            DETAILS[key] = proxy_conf[key]
 
         # Get the correct login details
         try:
@@ -372,6 +376,7 @@ def init(opts):
         DETAILS["password"] = password
         DETAILS["protocol"] = proxy_conf.get("protocol")
         DETAILS["port"] = proxy_conf.get("port")
+        DETAILS["mechanism"] = proxy_conf.get("mechanism")
         return True
 
     if "vcenter" in proxy_conf:
@@ -534,6 +539,11 @@ def find_credentials(host):
     Cycle through all the possible credentials and return the first one that
     works.
     """
+    # if the username and password were already found don't fo though the
+    # connection process again
+    if "username" in DETAILS and "password" in DETAILS:
+        return DETAILS["username"], DETAILS["password"]
+
     user_names = [__pillar__["proxy"].get("username", "root")]
     passwords = __pillar__["proxy"]["passwords"]
     for user in user_names:
