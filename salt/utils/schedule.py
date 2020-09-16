@@ -1795,7 +1795,9 @@ class Schedule(object):
                     target=self.handle_func, args=(multiprocessing_enabled, func, data)
                 )
                 proc.start()
-                proc.name = "{}-Schedule-{}".format(proc.name, data["name"])
+                # Juniper change starts
+                # proc.name = "{}-Schedule-{}".format(proc.name, data["name"])
+                # Juniper change ends
                 self._subprocess_list.add(proc)
         finally:
             if multiprocessing_enabled and salt.utils.platform.is_windows():
