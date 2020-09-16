@@ -713,6 +713,12 @@ class Schedule(object):
                 salt.minion.get_proc_dir(self.opts["cachedir"]), ret["jid"]
             )
 
+        # Juniper change starts
+        log.debug('schedule.handle_func: Setting the current thread name to'
+                  ' {}'.format(ret['jid']))
+        threading.currentThread().setName(ret['jid'])
+        # Juniper change ends
+
         # TODO: Make it readable! Splt to funcs, remove nested try-except-finally sections.
         try:
 
