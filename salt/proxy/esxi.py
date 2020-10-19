@@ -377,6 +377,8 @@ def init(opts):
         DETAILS["protocol"] = proxy_conf.get("protocol")
         DETAILS["port"] = proxy_conf.get("port")
         DETAILS["mechanism"] = proxy_conf.get("mechanism")
+        __salt__["event.fire_master"]({}, "esxi/proxy/{}/start".format(
+            opts["proxy"]["host"]))
         return True
 
     if "vcenter" in proxy_conf:
@@ -441,6 +443,8 @@ def init(opts):
     DETAILS["protocol"] = proxy_conf.get("protocol", "https")
     DETAILS["port"] = proxy_conf.get("port", "443")
     DETAILS["credstore"] = proxy_conf.get("credstore")
+    __salt__["event.fire_master"]({}, "esxi/proxy/{}/start".format(
+        opts["proxy"]["vcenter"]))
 
 
 def grains():

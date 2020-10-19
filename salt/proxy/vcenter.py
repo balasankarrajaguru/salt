@@ -308,6 +308,8 @@ def init(opts):
             return False
         else:
             DETAILS["password"] = password
+    __salt__["event.fire_master"]({}, "vcenter/proxy/{}/start".format(
+        opts["proxy"]["vcenter"]))
     return True
 
 
