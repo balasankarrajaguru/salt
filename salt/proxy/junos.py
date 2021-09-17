@@ -120,6 +120,7 @@ def init(opts):
         "normalize",
         "huge_tree",
         "use_filter",
+        "sock_fd"
     ]
 
     if "username" in opts["proxy"].keys():
