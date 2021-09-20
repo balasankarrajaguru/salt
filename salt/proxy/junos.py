@@ -120,7 +120,7 @@ def init(opts):
         "normalize",
         "huge_tree",
         "use_filter",
-        "sock_fd"
+        "sock_fd",
     ]
 
     if "username" in opts["proxy"].keys():
@@ -143,6 +143,10 @@ def init(opts):
             log.error('encoded_password option provided, but could not find junossecure option to'
                       ' decode. Proceeding with passwd or password options if provided.')
 
+    if "sockfd" in opts["proxy"].keys():
+        opts['proxy']['sock_fd'] = opts['proxy']['sockfd']
+        opts['proxy'].pop('sockfd', None)
+        
     for arg in optional_args:
         if arg in proxy_keys:
             args[arg] = opts["proxy"][arg]
