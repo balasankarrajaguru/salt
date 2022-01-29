@@ -258,7 +258,8 @@ def setvals(grains, destructive=False, refresh_pillar=True):
             try:
                 grains = salt.utils.yaml.safe_load(fp_)
             except salt.utils.yaml.YAMLError as exc:
-                return "Unable to read existing grains file: {0}".format(exc)
+                log.error("Unable to read existing grains file: {0}".format(exc))
+                grains = {}
         if not isinstance(grains, dict):
             grains = {}
     for key, val in new_grains.items():
@@ -703,8 +704,9 @@ def set(key, val="", force=False, destructive=False, delimiter=DEFAULT_TARGET_DE
         and _existing_value == val
         and (val is not None or destructive is not True)
     ):
-        ret["comment"] = "Grain is already set"
-        return ret
+        if not force:
+            ret["comment"] = "Grain is already set"
+            return ret
 
     if _existing_value is not None and not force:
         if _existing_value_type == "complex":

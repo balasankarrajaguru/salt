@@ -318,8 +318,9 @@ class Schedule(object):
 
         # Fire the complete event back along with updated list of schedule
         with salt.utils.event.get_event("minion", opts=self.opts, listen=False) as evt:
+            schedule_to_be_published = self._jnpr_modify_pub_schedule(self._get_schedule())
             evt.fire_event(
-                {"complete": True, "schedule": self._get_schedule()},
+                {"complete": True, "schedule": schedule_to_be_published},
                 tag="/salt/minion/minion_schedule_delete_complete",
             )
 
@@ -354,8 +355,9 @@ class Schedule(object):
 
         # Fire the complete event back along with updated list of schedule
         with salt.utils.event.get_event("minion", opts=self.opts, listen=False) as evt:
+            schedule_to_be_published = self._jnpr_modify_pub_schedule(self._get_schedule())
             evt.fire_event(
-                {"complete": True, "schedule": self._get_schedule()},
+                {"complete": True, "schedule": schedule_to_be_published},
                 tag="/salt/minion/minion_schedule_delete_complete",
             )
 
@@ -366,6 +368,23 @@ class Schedule(object):
 
         if persist:
             self.persist()
+
+    def _jnpr_modify_pub_schedule(self, full_schedule, fields=[]):
+        full_schedule = self._get_schedule()
+        schedule_to_be_published = {}
+        for job in full_schedule:
+            if not isinstance(full_schedule[job], dict):
+                schedule_to_be_published[job] = full_schedule[job]
+                continue
+            if not full_schedule[job].get('name'):
+                schedule_to_be_published[job] = full_schedule[job]
+                continue
+            schedule_to_be_published[job] = {}
+            # schedule_to_be_published[job]['name'] = full_schedule[job]['name']
+            for field in fields:
+                if full_schedule[job].get(field):
+                    schedule_to_be_published[job][field] = full_schedule[job][field]
+        return schedule_to_be_published
 
     def add_job(self, data, persist=True):
         """
@@ -402,8 +421,9 @@ class Schedule(object):
 
         # Fire the complete event back along with updated list of schedule
         with salt.utils.event.get_event("minion", opts=self.opts, listen=False) as evt:
+            schedule_to_be_published = self._jnpr_modify_pub_schedule(self._get_schedule())
             evt.fire_event(
-                {"complete": True, "schedule": self._get_schedule()},
+                {"complete": True, "schedule": schedule_to_be_published},
                 tag="/salt/minion/minion_schedule_add_complete",
             )
 
@@ -423,8 +443,10 @@ class Schedule(object):
 
         # Fire the complete event back along with updated list of schedule
         with salt.utils.event.get_event("minion", opts=self.opts, listen=False) as evt:
+            schedule_to_be_published = \
+                self._jnpr_modify_pub_schedule(self._get_schedule(), fields=["enabled"])
             evt.fire_event(
-                {"complete": True, "schedule": self._get_schedule()},
+                {"complete": True, "schedule": schedule_to_be_published},
                 tag="/salt/minion/minion_schedule_enabled_job_complete",
             )
 
@@ -444,8 +466,10 @@ class Schedule(object):
 
         with salt.utils.event.get_event("minion", opts=self.opts, listen=False) as evt:
             # Fire the complete event back along with updated list of schedule
+            schedule_to_be_published = \
+                self._jnpr_modify_pub_schedule(self._get_schedule(), fields=["enabled"])
             evt.fire_event(
-                {"complete": True, "schedule": self._get_schedule()},
+                {"complete": True, "schedule": schedule_to_be_published},
                 tag="/salt/minion/minion_schedule_disabled_job_complete",
             )
 
@@ -510,8 +534,10 @@ class Schedule(object):
 
         # Fire the complete event back along with updated list of schedule
         with salt.utils.event.get_event("minion", opts=self.opts, listen=False) as evt:
+            schedule_to_be_published = \
+                self._jnpr_modify_pub_schedule(self._get_schedule(), fields=["enabled"])
             evt.fire_event(
-                {"complete": True, "schedule": self._get_schedule()},
+                {"complete": True, "schedule": schedule_to_be_published},
                 tag="/salt/minion/minion_schedule_enabled_complete",
             )
 
@@ -526,8 +552,10 @@ class Schedule(object):
 
         # Fire the complete event back along with updated list of schedule
         with salt.utils.event.get_event("minion", opts=self.opts, listen=False) as evt:
+            schedule_to_be_published = \
+                self._jnpr_modify_pub_schedule(self._get_schedule(), fields=["enabled"])
             evt.fire_event(
-                {"complete": True, "schedule": self._get_schedule()},
+                {"complete": True, "schedule": schedule_to_be_published},
                 tag="/salt/minion/minion_schedule_disabled_complete",
             )
 
@@ -558,8 +586,9 @@ class Schedule(object):
 
         # Fire the complete event back along with the list of schedule
         with salt.utils.event.get_event("minion", opts=self.opts, listen=False) as evt:
+            schedule_to_be_published = self._jnpr_modify_pub_schedule(schedule, fields=[])
             evt.fire_event(
-                {"complete": True, "schedule": schedule},
+                {"complete": True, "schedule": schedule_to_be_published},
                 tag="/salt/minion/minion_schedule_list_complete",
             )
 
@@ -601,8 +630,10 @@ class Schedule(object):
 
         # Fire the complete event back along with updated list of schedule
         with salt.utils.event.get_event("minion", opts=self.opts, listen=False) as evt:
+            schedule_to_be_published = \
+                self._jnpr_modify_pub_schedule(self._get_schedule(), fields=["enabled"])
             evt.fire_event(
-                {"complete": True, "schedule": self._get_schedule()},
+                {"complete": True, "schedule": schedule_to_be_published},
                 tag="/salt/minion/minion_schedule_postpone_job_complete",
             )
 
@@ -627,8 +658,10 @@ class Schedule(object):
 
         # Fire the complete event back along with updated list of schedule
         with salt.utils.event.get_event("minion", opts=self.opts, listen=False) as evt:
+            schedule_to_be_published = \
+                self._jnpr_modify_pub_schedule(self._get_schedule(), fields=["enabled"])
             evt.fire_event(
-                {"complete": True, "schedule": self._get_schedule()},
+                {"complete": True, "schedule": schedule_to_be_published},
                 tag="/salt/minion/minion_schedule_skip_job_complete",
             )
 
